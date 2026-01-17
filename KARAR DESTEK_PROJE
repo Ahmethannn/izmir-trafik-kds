@@ -1,0 +1,87 @@
+import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+import random
+
+# İzmir'in önemli caddeleri ve koordinatları (Başlangıç - Bitiş noktaları)
+# Bu koordinatlar haritada çizgi çekmek için lazım.
+caddeler = {
+    "Mustafa Kemal Sahil Blv": {"lat": 38.4115, "lon": 27.1280}, # Konak tarafı
+    "Altınyol (Anadolu Cad.)": {"lat": 38.4560, "lon": 27.1750}, # Bayraklı tarafı
+    "Yeşildere Caddesi":       {"lat": 38.4050, "lon": 27.1550}, # Buca tarafı
+    "Talatpaşa Bulvarı":       {"lat": 38.4320, "lon": 27.1420}, # Alsancak
+    "Manas Bulvarı":           {"lat": 38.4500, "lon": 27.2000}  # Bornova
+}
+
+def veri_uret():
+    data = []
+    bitis_tarihi = datetime.now()
+    baslangic_tarihi = bitis_tarihi - timedelta(days=180) # 6 ay öncesi
+
+    print("Veri üretiliyor... Lütfen bekleyin.")
+
+    # 10.000 satırlık veri üretelim
+    for _ in range(10000):
+        # Rastgele zaman seçimi
+        gun_farki = np.random.randint(0, 180)
+        saniye_farki = np.random.randint(0, 86400)
+        tarih = baslangic_tarihi + timedelta(days=gun_farki, seconds=saniye_farki)
+        
+        # Rastgele cadde seçimi
+        cadde_adi = random.choice(list(caddeler.keys()))
+        coords = caddeler[cadde_adi]
+        
+        # --- KDS Mantığı (Zeka) ---
+        # Saat ve güne göre trafik yoğunluğunu mantıklı ayarla
+        saat = tarih.hour
+        hafta_gunu = tarih.weekday() # 0-4 Hafta içi, 5-6 Hafta sonu
+        
+        base_yogunluk = np.random.randint(10, 30) # Normalde trafik azdır
+        
+        # Sabah trafiği (07-09) - Hafta içi
+        if hafta_gunu < 5 and 7 <= saat <= 9:
+            base_yogunluk += np.random.randint(50, 70)
+        
+        # Akşam trafiği (17-19) - Hafta içi
+        elif hafta_gunu < 5 and 17 <= saat <= 19:
+            base_yogunluk += np.random.randint(60, 70)
+            
+        # Hafta sonu gezmesi
+        elif hafta_gunu >= 5 and 13 <= saat <= 16:
+            base_yogunluk += np.random.randint(30, 50)
+
+        # Yoğunluk 100'ü geçmesin
+        yogunluk = min(base_yogunluk, 100)
+        
+        # Renk Belirleme
+        if yogunluk >= 70:
+            renk = "Kirmizi"
+            durum = "Cok Yogun"
+        elif yogunluk >= 40:
+            renk = "Turuncu"
+            durum = "Akici Yogun"
+        else:
+            renk = "Yesil"
+            durum = "Acik"
+
+        # Listeye ekle
+        data.append({
+            "Tarih": tarih,
+            "Cadde": cadde_adi,
+            "Enlem": coords["lat"],
+            "Boylam": coords["lon"],
+            "Yogunluk": yogunluk,
+            "Renk": renk,
+            "Durum": durum,
+            "Saat": saat,
+            "Gun": hafta_gunu
+        })
+
+    # Veriyi DataFrame'e çevir ve kaydet
+    df = pd.DataFrame(data)
+    df.to_csv("izmir_trafik_proje.csv", index=False)
+    print("Başarılı! 'izmir_trafik_proje.csv' dosyası oluşturuldu.")
+
+# Fonksiyonu çalıştır
+if __name__ == "__main__":
+    veri_uret()

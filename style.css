@@ -1,0 +1,45 @@
+.stApp {
+    background-color: #0E1117;
+    color: #E0E0E0;
+}
+
+[data-testid="stSidebar"] {
+    background-color: #1a1c24;
+    border-right: 1px solid #333;
+}
+
+iframe {
+    width: 100% !important;
+    height: 500px !important; 
+}
+
+div[data-testid="stVerticalBlock"] > div:has(iframe) {
+    height: 500px;
+}
+
+div[data-testid="metric-container"] {
+    background-color: rgba(38, 39, 48, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.sim-info {
+    background-color: #0078D4;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+h1, h2, h3 {
+    font-family: 'Segoe UI', sans-serif;
+    color: #FFFFFF;
+}
+
+.stButton>button {
+    width: 100%;
+    border-radius: 5px;
+}
