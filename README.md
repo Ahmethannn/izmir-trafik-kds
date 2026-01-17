@@ -1,4 +1,4 @@
-# 🚦 İzmir Kenti Ana Arterleri İçin Simülasyon Tabanlı Akıllı Trafik Karar Destek Sistemi
+#  İzmir Kenti Ana Arterleri İçin Simülasyon Tabanlı Akıllı Trafik Karar Destek Sistemi
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
@@ -28,7 +28,7 @@ Bu proje, İzmir ili ana arterlerindeki trafik yoğunluğunu analiz eden, görse
 * **Veri İşleme:** Pandas, NumPy
 * **Görselleştirme:** Folium (Harita), Plotly Express & Graph Objects
 
-## 🚀 Kurulum ve Çalıştırma
+##  Kurulum ve Çalıştırma
 
 Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyin:
 
